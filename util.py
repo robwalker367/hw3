@@ -274,10 +274,11 @@ class NANDProgram(object):
         output_n_minus_one = self.allocate()
         output_n = self.allocate()
         self.ADD_3(output_n_minus_one, output_n,
-               row_string[N], acc_lst[N], last_carry)
-        #row_string[N - 1], acc_lst[N - 1], carry)
-        new_output.append(output_n)
+               row_string[N - 1], acc_lst[N - 1], last_carry)
+
         new_output.append(output_n_minus_one)
+        new_output.append(output_n)
+
 
 
         return new_output
