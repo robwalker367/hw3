@@ -239,7 +239,7 @@ class NANDProgram(object):
     def CREATE(self, index, C_bin, PSET_DIM):
         row_string = []
         for i in range(0, index):
-            row_string.append(self.ZERO("ZERO"))
+            row_string.append(self.ZERO("0"))
         for j in range(0, PSET_DIM - index):
             temp = self.allocate()
             self.AND(temp, self.input_var(j), C_bin[index])
@@ -250,12 +250,14 @@ class NANDProgram(object):
     def ADDER(self, acc_lst, row_string, N):
         new_output = []
 
+        self.ONE("1")
+
         carry = self.allocate()
         output_zero = self.allocate()
 
         self.ADD_3(output_zero, carry,
-                row_string[0], acc_lst[0], self.NAND("ZERO", "ONE", "ONE"))
-        
+                row_string[0], acc_lst[0], self.NAND("0", "1", "1"))
+
         new_output.append(output_zero)
 
         last_carry = ""
@@ -272,10 +274,12 @@ class NANDProgram(object):
         output_n_minus_one = self.allocate()
         output_n = self.allocate()
         self.ADD_3(output_n_minus_one, output_n,
-                row_string[N-1], acc_lst[N-1], carry)
-        
-        new_output.append(output_n_minus_one)
+               row_string[N], acc_lst[N], last_carry)
+        #row_string[N - 1], acc_lst[N - 1], carry)
         new_output.append(output_n)
+        new_output.append(output_n_minus_one)
+
+
         return new_output
 
 

@@ -33,7 +33,7 @@ def nandmultiply():
 
     zero_lst = []
     for i in range(0, PSET_DIM):
-      zero_lst.append(prog.ZERO("ZERO"))
+      zero_lst.append(prog.ZERO("0"))
 
     acc_lst = []
 
@@ -42,12 +42,15 @@ def nandmultiply():
       if x == 0:
         acc_lst = prog.ADDER(zero_lst, output, PSET_DIM - 1)
       if x != 0:
-        acc_lst = prog.ADDER(acc_lst, output, PSET_DIM - 1) 
+        acc_lst = prog.ADDER(acc_lst, output, PSET_DIM - 1)
       
     for j in range(0, len(acc_lst)):
-      prog.OR(prog.output_var(j), acc_lst[j], prog.ZERO("ZERO"))
+        prog.OR(prog.output_var(j), acc_lst[j], "0")
 
+    # prog.OR(prog.output_var(PSET_DIM - 1), prog.ZERO("0"), prog.ONE("1"))
     # "compiles" your completed program as a NAND program string.
+    # print(prog)
+
     return str(prog)
 
 
@@ -74,7 +77,6 @@ def nandadder(N):
 
     nand.ADD_3(nand.output_var(N-1), nand.output_var(N),
                nand.input_var(N-1), nand.input_var(2 * N - 1), carry)
-    # print(str(nand))
     return str(nand)
 
 
